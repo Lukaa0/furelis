@@ -256,7 +256,7 @@ body.birthday-mode * {
     animation-delay: 2s;
 }
 
-/* FLOATING IMAGES STYLES */
+
 .floating-img {
     border: 3px solid rgba(255, 255, 255, 0.4) !important;
     filter: brightness(0.9) saturate(1.2);
@@ -268,7 +268,7 @@ body.birthday-mode * {
     transform: scale(1.05) !important;
 }
 
-/* EPIC FLOATING ANIMATIONS */
+
 @keyframes epic-float-1 {
     0%, 100% { transform: translate(0, 0) rotate(0deg); }
     25% { transform: translate(30px, -25px) rotate(90deg); }
@@ -325,7 +325,7 @@ body.birthday-mode * {
     83% { transform: translate(35px, -15px) rotate(315deg); }
 }
 
-/* Confetti and Click Effects */
+
 @keyframes confetti-explosion {
     0% {
         transform: translate(0, 0) rotate(0deg);
@@ -368,7 +368,7 @@ body.birthday-mode * {
     }
 }
 
-/* NEW AWESOME ANIMATIONS */
+
 @keyframes gradient-shift {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -420,7 +420,7 @@ body.birthday-mode * {
     }
 }
 
-/* CHAOTIC SCREEN SHAKE AND ZOOM EFFECTS */
+
 @keyframes screen-shake {
     0%, 100% { transform: translate(0, 0) rotate(0deg); }
     10% { transform: translate(-2px, 2px) rotate(0.5deg); }
@@ -471,7 +471,7 @@ body.birthday-mode * {
     }
 }
 
-/* CHAOS AND MAYHEM ANIMATIONS! 🔥 */
+
 @keyframes glitch-chaos {
     0%, 100% { 
         transform: translate(0, 0) scale(1);
@@ -586,7 +586,7 @@ body.birthday-mode * {
     }
 }
 
-/* ULTIMATE CHAOS ANIMATIONS 🔥 */
+
 
 @keyframes laser-sweep {
     0% { 
@@ -682,7 +682,7 @@ body.birthday-mode * {
     }
 }
 
-/* FIREWORKS ANIMATION */
+
 @keyframes firework-explosion {
     0% {
         transform: translate(0, 0);
@@ -694,7 +694,7 @@ body.birthday-mode * {
     }
 }
 
-/* SPARKLE AND FLOATING EFFECTS */
+
 @keyframes sparkle-fade {
     0% {
         opacity: 1;
@@ -734,7 +734,7 @@ body.birthday-mode * {
     }
 }
 
-/* RESPONSIVE DESIGN */
+
 @media (max-width: 768px) {
     .countdown-title, .birthday-title {
         font-size: 2.5rem;
@@ -791,7 +791,7 @@ body.birthday-mode * {
     }
 }
 
-/* EXTREME CHAOS HOVER EFFECTS 💥 */
+
 
 .birthday-title:hover {
     animation: screen-shake 0.1s ease-in-out infinite, 
@@ -822,7 +822,7 @@ body.birthday-mode * {
     transform: scale(1.2) rotate(5deg) !important;
 }
 
-/* RAINBOW CHAOS BORDERS */
+
 .birthday-mode .time-unit {
     border: 3px solid transparent !important;
     background: linear-gradient(rgba(255,255,255,0.1), rgba(255,255,255,0.1)) padding-box,
@@ -839,7 +839,7 @@ body.birthday-mode * {
                rainbow-border-2 2s linear infinite !important;
 }
 
-/* ULTIMATE SCREEN GLITCH OVERLAY */
+
 .birthday-mode::after {
     content: '';
     position: fixed;
