@@ -1,4 +1,3 @@
-
 let audio;
 let isPlaying = false;
 let confettiInterval;
@@ -408,7 +407,7 @@ class BirthdayRain {
         }, 5000);
         
         if (this.isActive) {
-            setTimeout(() => this.createRain(), Math.random() * 200 + 100);
+            setTimeout(() => this.createRain(), 5000);
         }
     }
 }
@@ -440,7 +439,7 @@ class MessageCarousel {
 
 
 function createFloatingImages() {
-    const images = ['imgs/charlixcx.png', 'imgs/succession.png', 'imgs/taylor-swift.jpg', 'imgs/brazil.svg', 'imgs/cmbyn.jpg'];
+    const images = ['imgs/charlixcx.png', 'imgs/succession.png', 'imgs/taylor-swift.jpg', 'imgs/brazil.svg', 'imgs/cmbyn.jpg', 'imgs/csh.jpg', 'imgs/willtoledo.jpg'];
     
     
     document.querySelectorAll('.floating-img').forEach(img => img.remove());
@@ -509,7 +508,7 @@ function createConfettiExplosion(x, y) {
             if (confetti.parentNode) {
                 confetti.parentNode.removeChild(confetti);
             }
-        }, 3000);
+        }, 5000);
     }
 }
 
@@ -560,25 +559,29 @@ function addClickEffects() {
 function updateCountdown() {
     const now = getBrazilianDate();
     let targetYear = now.getFullYear();
-    let target = new Date(targetYear, 5, 7, 0, 0, 0, 0); 
-    
-    
-    if (now > target) {
-        target = new Date(targetYear + 1, 5, 7, 0, 0, 0, 0);
+
+    const birthdayStart = new Date(targetYear, 5, 7, 0, 0, 0, 0);
+    const birthdayEnd = new Date(targetYear, 5, 7, 23, 59, 59, 999);
+
+    if (now > birthdayEnd) {
+        targetYear += 1;
     }
-    
-    const diff = target - now;
-    
-    if (diff <= 0) {
+
+    const newBirthdayStart = new Date(targetYear, 5, 7, 0, 0, 0, 0);
+    const newBirthdayEnd = new Date(targetYear, 5, 7, 23, 59, 59, 999);
+
+    if (now >= newBirthdayStart && now <= newBirthdayEnd) {
         showBirthdayMode();
         return;
     }
-    
+
+    const diff = newBirthdayStart - now;
+
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    
+
     document.getElementById('days').textContent = days.toString().padStart(2, '0');
     document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
     document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
@@ -592,6 +595,9 @@ function showCountdownMode() {
     
     updateCountdown();
     setInterval(updateCountdown, 1000);
+    
+    createCountdownFloatingElements();
+    createCountdownConfetti();
 }
 
 function showBirthdayMode() {
@@ -622,8 +628,7 @@ function showBirthdayMode() {
     
     setTimeout(() => {
         createDiscoBall();
-        createMatrixRain();
-    }, 3000);
+    }, 5000);
     
     
     confettiInterval = setInterval(() => {
@@ -837,7 +842,7 @@ function unleashEmojiChaos() {
                 }, 5000);
             }
         }
-    }, 2000);
+    }, 5000);
 }
 
 
@@ -1032,34 +1037,6 @@ function createLaserBeams() {
 }
 
 
-function createMatrixRain() {
-    const characters = ['0', '1', 'ユ', 'カ', 'タ', 'ナ', 'ハ', 'マ', 'ヤ', 'ラ', 'ワ'];
-    
-    for (let i = 0; i < 20; i++) {
-        const char = document.createElement('div');
-        char.textContent = characters[Math.floor(Math.random() * characters.length)];
-        char.style.cssText = `
-            position: fixed;
-            font-family: monospace;
-            font-size: ${Math.random() * 20 + 15}px;
-            color: #00ff41;
-            left: ${Math.random() * 100}%;
-            top: -50px;
-            z-index: 1001;
-            pointer-events: none;
-            animation: matrix-fall ${Math.random() * 3 + 2}s linear;
-            text-shadow: 0 0 10px #00ff41;
-        `;
-        
-        document.body.appendChild(char);
-        
-        setTimeout(() => {
-            if (char.parentNode) char.parentNode.removeChild(char);
-        }, 5000);
-    }
-}
-
-
 function createDiscoBall() {
     const existing = document.getElementById('disco-ball');
     if (existing) return;
@@ -1083,7 +1060,7 @@ function createDiscoBall() {
         transform: translateX(-50%);
     `;
     
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 5; i++) {
         const sparkle = document.createElement('div');
         sparkle.style.cssText = `
             position: absolute;
@@ -1103,7 +1080,7 @@ function createDiscoBall() {
     
     setTimeout(() => {
         if (disco.parentNode) disco.parentNode.removeChild(disco);
-    }, 10000);
+    }, 1000);
 }
 
 
@@ -1159,3 +1136,142 @@ function createScreenFragments() {
         }, 5000);
     }
 }
+
+
+function createCountdownFloatingElements() {
+    if (isTodayBirthday()) return;
+    
+    const existing = document.getElementById('countdown-floating-container');
+    if (existing) existing.remove();
+    
+    const container = document.createElement('div');
+    container.id = 'countdown-floating-container';
+    container.className = 'countdown-floating-elements';
+    
+    const gifts = ['🎁', '🎀', '💝', '🎊'];
+    for (let i = 0; i < 8; i++) {
+        const gift = document.createElement('div');
+        gift.className = 'floating-gift';
+        gift.textContent = gifts[Math.floor(Math.random() * gifts.length)];
+        gift.style.left = Math.random() * 100 + '%';
+        gift.style.top = Math.random() * 100 + '%';
+        gift.style.animationDelay = Math.random() * 8 + 's';
+        gift.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        container.appendChild(gift);
+    }
+    
+    const cakes = ['🎂', '🧁', '🍰', '🎪'];
+    for (let i = 0; i < 5; i++) {
+        const cake = document.createElement('div');
+        cake.className = 'floating-cake';
+        cake.textContent = cakes[Math.floor(Math.random() * cakes.length)];
+        cake.style.left = Math.random() * 100 + '%';
+        cake.style.top = Math.random() * 100 + '%';
+        cake.style.animationDelay = Math.random() * 12 + 's';
+        cake.style.animationDuration = (Math.random() * 6 + 10) + 's';
+        container.appendChild(cake);
+    }
+    
+    const balloons = ['🎈', '🎉', '✨', '🌟'];
+    for (let i = 0; i < 12; i++) {
+        const balloon = document.createElement('div');
+        balloon.className = 'floating-balloon';
+        balloon.textContent = balloons[Math.floor(Math.random() * balloons.length)];
+        balloon.style.left = Math.random() * 100 + '%';
+        balloon.style.top = Math.random() * 100 + '%';
+        balloon.style.animationDelay = Math.random() * 6 + 's';
+        balloon.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        container.appendChild(balloon);
+    }
+    
+    const stars = ['⭐', '✨', '💫', '🌟'];
+    for (let i = 0; i < 15; i++) {
+        const star = document.createElement('div');
+        star.className = 'floating-star';
+        star.textContent = stars[Math.floor(Math.random() * stars.length)];
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 4 + 's';
+        star.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        container.appendChild(star);
+    }
+    
+    const musicNotes = ['♪', '♫', '♬', '🎵', '🎶'];
+    for (let i = 0; i < 10; i++) {
+        const note = document.createElement('div');
+        note.className = 'floating-music-note';
+        note.textContent = musicNotes[Math.floor(Math.random() * musicNotes.length)];
+        note.style.left = Math.random() * 100 + '%';
+        note.style.top = Math.random() * 100 + '%';
+        note.style.animationDelay = Math.random() * 10 + 's';
+        note.style.animationDuration = (Math.random() * 5 + 8) + 's';
+        container.appendChild(note);
+    }
+    
+    const partyHats = ['🎩', '👑', '🎭', '🎪'];
+    for (let i = 0; i < 6; i++) {
+        const hat = document.createElement('div');
+        hat.className = 'floating-party-hat';
+        hat.textContent = partyHats[Math.floor(Math.random() * partyHats.length)];
+        hat.style.left = Math.random() * 100 + '%';
+        hat.style.top = Math.random() * 100 + '%';
+        hat.style.animationDelay = Math.random() * 7 + 's';
+        hat.style.animationDuration = (Math.random() * 4 + 6) + 's';
+        container.appendChild(hat);
+    }
+    
+    for (let i = 0; i < 20; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'countdown-bubbles';
+        bubble.style.left = Math.random() * 100 + '%';
+        bubble.style.animationDelay = Math.random() * 15 + 's';
+        bubble.style.animationDuration = (Math.random() * 10 + 12) + 's';
+        
+        // Random bubble colors
+        const bubbleColors = [
+            'rgba(255, 182, 193, 0.6)',
+            'rgba(173, 216, 230, 0.6)',
+            'rgba(144, 238, 144, 0.6)',
+            'rgba(255, 218, 185, 0.6)',
+            'rgba(221, 160, 221, 0.6)'
+        ];
+        const randomColor = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
+        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), ${randomColor})`;
+        
+        container.appendChild(bubble);
+    }
+    
+    document.body.appendChild(container);
+}
+
+function createCountdownConfetti() {
+    if (isTodayBirthday()) return;
+    
+    setInterval(() => {
+        if (Math.random() < 0.1) {
+            const confettiColors = ['#667eea', '#764ba2', '#ff9a9e', '#fecfef', '#ffecd2'];
+            const confetti = document.createElement('div');
+            confetti.style.cssText = `
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                background: ${confettiColors[Math.floor(Math.random() * confettiColors.length)]};
+                left: ${Math.random() * 100}%;
+                top: -10px;
+                z-index: 2;
+                pointer-events: none;
+                border-radius: 50%;
+                animation: gentle-fall ${Math.random() * 8 + 5}s linear forwards;
+                opacity: 0.7;
+            `;
+            
+            document.body.appendChild(confetti);
+            
+            setTimeout(() => {
+                if (confetti.parentNode) confetti.parentNode.removeChild(confetti);
+            }, 1000);
+        }
+    }, 5000);
+}
+
+
